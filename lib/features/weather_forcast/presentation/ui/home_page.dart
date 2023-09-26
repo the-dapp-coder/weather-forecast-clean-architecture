@@ -5,8 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weather_app/features/weather_forcast/presentation/riverpod/weather_forecast_state.dart';
 import 'package:weather_app/features/weather_forcast/presentation/riverpod/weather_provider.dart';
 
-import '../../domain/usecases/typed_location_forecast_usecase.dart';
-
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
@@ -71,14 +69,39 @@ class _HomePageState extends ConsumerState<HomePage> {
                       child: CircularProgressIndicator(),
                     );
                   } else if (weatherState is ForecastLoadedState) {
-                    return ListView.builder(itemBuilder: (context, index) {
-                      return Card(
-                        child: ListTile(
-                          title: Text(
-                              '${weatherState.state.hourlyData.temperature[index]}'),
-                        ),
-                      );
-                    });
+                    final hourlyData = weatherState.state.hourlyData;
+                    final units = weatherState.state.weatherParamUnits;
+
+                    return ListView.builder(
+                      itemCount: hourlyData.time.length,
+                      itemBuilder: (context, index) {
+                        return hourlyData.time[index]
+                                .contains('T${DateTime.now().hour}')
+                            ? Card(
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Column(
+                                    children: [
+                                      Text('${hourlyData.time[index]}'),
+                                      Text(
+                                        'Temp: ${hourlyData.temperature[index]} ${units.temperature}',
+                                      ),
+                                      Text(
+                                        'Rain: ${hourlyData.rain[index]} ${units.rain}',
+                                      ),
+                                      Text(
+                                        'Precipitation: ${hourlyData.precipitation[index]} ${units.precipitation}',
+                                      ),
+                                      Text(
+                                        'Showers: ${hourlyData.showers[index]} ${units.showers}',
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : const SizedBox();
+                      },
+                    );
                   } else {
                     return const Center(
                       child: Text('Something went worng!'),
@@ -88,12 +111,13 @@ class _HomePageState extends ConsumerState<HomePage> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  final readProvider = ref.read(weatherProvifer.notifier);
-                  readProvider.getTypedLocationForecast(
-                    WeatherParams(
-                      cityName: _cityController.text,
-                    ),
-                  );
+                  print('date is ${DateTime.now()}');
+                  // final readProvider = ref.read(weatherProvifer.notifier);
+                  // readProvider.getTypedLocationForecast(
+                  //   WeatherParams(
+                  //     cityName: _cityController.text,
+                  //   ),
+                  // );
                 },
                 child: const Text('Fetch Data'),
               )
