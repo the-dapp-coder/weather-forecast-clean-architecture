@@ -1,9 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:weather_app/core/erros/failures.dart';
 import 'package:weather_app/features/weather_forcast/domain/entities/weather_forecast_entity.dart';
-import 'package:weather_app/features/weather_forcast/domain/usecases/fetch_weather_data_usecase.dart';
+
+import '../usecases/typed_location_forecast_usecase.dart';
 
 abstract class WetherForecastRepository {
-  Future<Either<Failures, WeatherForecastEntity>> fetchForecastData(
-      WeatherParams params);
+  Future<Either<Failures, WeatherForecastEntity>>
+      fetchCurrentLocationForecastData();
+  Future<Either<Failures, WeatherForecastEntity>>
+      fetchTypedLocationForecastData(WeatherParams params);
 }

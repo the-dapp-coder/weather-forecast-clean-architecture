@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_app/core/erros/exceptions.dart';
 import 'package:weather_app/core/utils/constants.dart';
+import 'package:weather_app/features/weather_forcast/data/models/location_data_model.dart';
 import 'package:weather_app/features/weather_forcast/data/models/weather_forecast_model.dart';
 
 abstract class ForecastLocalDatasource {
@@ -12,11 +14,15 @@ abstract class ForecastLocalDatasource {
   /// fetches weather forecast data from local storage
   /// throws [CacheException]
   WeatherForecastModel fethForecastLocally();
+
+  Future<LocationDataModel> getCurrentLocation();
 }
 
 class ForecastLocalDatasourceImpl extends ForecastLocalDatasource {
   final SharedPreferences sharedPreferences;
-  ForecastLocalDatasourceImpl({required this.sharedPreferences});
+  ForecastLocalDatasourceImpl({
+    required this.sharedPreferences,
+  });
   @override
   Future<void> setForecastDataLocally(WeatherForecastModel forecastData) async {
     await sharedPreferences.setString(
@@ -32,5 +38,35 @@ class ForecastLocalDatasourceImpl extends ForecastLocalDatasource {
     } else {
       throw CacheException();
     }
+  }
+
+  @override
+  Future<LocationDataModel> getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        throw PermissionBlockedException();
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      await Geolocator.requestPermission();
+      throw PermissionBlockedForeverException();
+    }
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      throw const LocationServiceDisabledException();
+    }
+
+    final locationData = await Geolocator.getCurrentPosition();
+    return LocationDataModel(
+      latitude: '${locationData.latitude}',
+      longitude: '${locationData.longitude}',
+    );
   }
 }

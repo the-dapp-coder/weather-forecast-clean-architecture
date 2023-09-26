@@ -4,7 +4,7 @@ import 'package:weather_app/core/erros/failures.dart';
 import 'package:weather_app/core/usecases/usecase.dart';
 import 'package:weather_app/features/weather_forcast/domain/entities/weather_forecast_entity.dart';
 
-class FetchWetherDataUsecase
+class TypedLocationForecastUsecase
     extends Usecase<WeatherForecastEntity, WeatherParams> {
   @override
   Future<Either<Failures, WeatherForecastEntity>> call(WeatherParams params) {
@@ -13,15 +13,10 @@ class FetchWetherDataUsecase
 }
 
 class WeatherParams extends Equatable {
-  final String longitude;
-  final String latitude;
+  final String cityName;
   const WeatherParams({
-    required this.latitude,
-    required this.longitude,
+    required this.cityName,
   });
   @override
-  List<Object?> get props => [
-        longitude,
-        latitude,
-      ];
+  List<Object?> get props => [cityName];
 }
