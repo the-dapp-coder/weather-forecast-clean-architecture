@@ -4,7 +4,7 @@ import 'package:weather_app/features/weather_forcast/domain/entities/weather_for
 
 import '../usecases/typed_location_forecast_usecase.dart';
 
-abstract class WetherForecastRepository {
+abstract class WeatherForecastRepository {
   Future<Either<Failures, WeatherForecastEntity>>
       fetchCurrentLocationForecastData();
   Future<Either<Failures, WeatherForecastEntity>>
