@@ -38,10 +38,13 @@ class ForecastRemoteDatasourceImpl extends ForecastRemoteDatasource {
           '${Constants.weatherApiUrl}&longitude=${params.longitude}&latitude=${params.latitude}'),
     );
 
+    print('current location data ${response.body}');
+
     if (response.statusCode == 200) {
       final weatherForecastModel = WeatherForecastModel.fromJson(
         jsonDecode(response.body),
       );
+
       await localDatasource.setForecastDataLocally(weatherForecastModel);
       return weatherForecastModel;
     } else {
@@ -54,11 +57,12 @@ class ForecastRemoteDatasourceImpl extends ForecastRemoteDatasource {
     final response = await httpClient.get(
       Uri.parse('${Constants.locationApiUrl}?city=${params.cityName}'),
     );
-
+    print('typed location data ${response.body}');
     if (response.statusCode == 200) {
       final locationDataModel = LocationDataModel.fromJson(
         jsonDecode(response.body),
       );
+
       return locationDataModel;
     } else {
       throw ServerException();
