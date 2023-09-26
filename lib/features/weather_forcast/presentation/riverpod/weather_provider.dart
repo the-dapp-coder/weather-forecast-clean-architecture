@@ -3,6 +3,7 @@ import 'package:weather_app/features/weather_forcast/domain/usecases/current_loc
 import 'package:weather_app/features/weather_forcast/domain/usecases/typed_location_forecast_usecase.dart';
 import 'package:weather_app/features/weather_forcast/presentation/riverpod/weather_forecast_state.dart';
 
+import '../../../../core/usecases/usecase.dart';
 import '../../../../injection_container.dart';
 
 final weatherProvifer =
@@ -18,4 +19,32 @@ class WeatherProvider extends StateNotifier<WeatherForecastState> {
     required this.currentLocationForecastUsecase,
     required this.typedLocationForecastUsecase,
   }) : super(ForecastInitialState());
+
+  void getCurrentLocationForecast() async {
+    state = ForecastLoadingState();
+    final forecast = await currentLocationForecastUsecase(Params());
+    forecast.fold(
+      (failure) {
+        state = ForecastErrorState();
+        print(failure);
+      },
+      (result) {
+        state = ForecastLoadedState(state: result);
+      },
+    );
+  }
+
+  void getTypedLocationForecast(WeatherParams params) async {
+    state = ForecastLoadingState();
+    final forecast = await typedLocationForecastUsecase(params);
+    forecast.fold(
+      (failure) {
+        state = ForecastErrorState();
+        print(failure);
+      },
+      (result) {
+        state = ForecastLoadedState(state: result);
+      },
+    );
+  }
 }
