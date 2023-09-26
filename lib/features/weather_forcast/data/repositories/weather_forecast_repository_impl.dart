@@ -48,7 +48,9 @@ class WeatherForecastRepositoryImpl extends WeatherForecastRepository {
         final data = await remoteDatasource.fetchForecastRemotely(location);
         return Right(data);
       } else {
-        showErrorToast(message: "No internet connection!");
+        showErrorToast(
+            message:
+                "No internet connection! Please check your intrnet connection & try after some time...");
         final data = localDatasource.fethForecastLocally();
         return Right(data);
       }

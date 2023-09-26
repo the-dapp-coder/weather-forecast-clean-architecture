@@ -25,7 +25,19 @@ class MyApp extends StatelessWidget {
           centerTitle: true,
           color: Colors.blue,
         ),
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        elevatedButtonTheme: const ElevatedButtonThemeData(
+          style: ButtonStyle(
+            textStyle: MaterialStatePropertyAll(
+              TextStyle(
+                fontFamily: 'roboto',
+                fontSize: 16,
+                color: Colors.white,
+              ),
+            ),
+            backgroundColor: MaterialStatePropertyAll(Colors.blue),
+          ),
+        ),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
       home: const HomePage(),

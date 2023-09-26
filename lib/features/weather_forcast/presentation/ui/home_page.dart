@@ -43,6 +43,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text(
           'Weather Forecast',
@@ -59,7 +60,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               TextFormField(
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Please enter city name.';
+                    return 'Please enter some text';
                   }
                   return null;
                 },
@@ -68,15 +69,17 @@ class _HomePageState extends ConsumerState<HomePage> {
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.search),
                     onPressed: () {
-                      final readProvider = ref.read(weatherProvifer.notifier);
-                      readProvider.getTypedLocationForecast(
-                        WeatherParams(
-                          cityName: _cityController.text,
-                        ),
-                      );
+                      if (_formKey.currentState!.validate()) {
+                        final readProvider = ref.read(weatherProvifer.notifier);
+                        readProvider.getTypedLocationForecast(
+                          WeatherParams(
+                            cityName: _cityController.text,
+                          ),
+                        );
+                      }
                     },
                   ),
-                  hintText: 'Please enter the city name',
+                  hintText: 'Enter city to get city-forecast',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
@@ -125,6 +128,22 @@ class _HomePageState extends ConsumerState<HomePage> {
                   }
                 }),
               ),
+              ElevatedButton(
+                  onPressed: () {
+                    currentLocationForecast();
+                  },
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: const Text(
+                      'Current location forecast',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'roboto',
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+                  )),
             ],
           ),
         ),
