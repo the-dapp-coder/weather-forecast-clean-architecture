@@ -9,10 +9,25 @@ class WeatherForecastModel extends WeatherForecastEntity {
     required super.timeZone,
     required super.timeZoneAbr,
     required super.elevation,
-    required super.currentWether,
+    required super.currentWeather,
     required super.weatherParamUnits,
     required super.hourlyData,
   });
+
+  factory WeatherForecastModel.fromJson(Map<String, dynamic> json) {
+    return WeatherForecastModel(
+      longitude: json['longitude'],
+      latitude: json['latitude'],
+      generatedTimeMs: json['generationtime_ms'],
+      utcOffsetSeconds: json['utc_offset_seconds'],
+      timeZone: json['timezone'],
+      timeZoneAbr: json['timezone_abbreviation'],
+      elevation: json['elevation'],
+      currentWeather: CurrentWeatherModel.fromJson(json['current_weather']),
+      weatherParamUnits: WeatherParamUnitsModel.fromJson(json['hourly_units']),
+      hourlyData: HourlyForcastDataModel.fromJson(json['hourly']),
+    );
+  }
 }
 
 class HourlyForcastDataModel extends HourlyForcastData {

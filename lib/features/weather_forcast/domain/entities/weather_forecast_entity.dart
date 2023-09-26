@@ -8,7 +8,7 @@ class WeatherForecastEntity extends Equatable {
   final String timeZone;
   final String timeZoneAbr;
   final double elevation;
-  final CurrentWeather currentWether;
+  final CurrentWeather currentWeather;
   final WeatherParamUnits weatherParamUnits;
   final HourlyForcastData hourlyData;
 
@@ -20,7 +20,7 @@ class WeatherForecastEntity extends Equatable {
     required this.timeZone,
     required this.timeZoneAbr,
     required this.elevation,
-    required this.currentWether,
+    required this.currentWeather,
     required this.weatherParamUnits,
     required this.hourlyData,
   });
@@ -34,7 +34,7 @@ class WeatherForecastEntity extends Equatable {
         timeZone,
         timeZoneAbr,
         elevation,
-        currentWether,
+        currentWeather,
         weatherParamUnits,
         hourlyData,
       ];

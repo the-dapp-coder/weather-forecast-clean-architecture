@@ -18,3 +18,8 @@ class InternetConnectionFailure extends Failures {
   @override
   List<Object?> get props => [];
 }
+
+class UnknownFailure extends Failures {
+  @override
+  List<Object?> get props => [];
+}
