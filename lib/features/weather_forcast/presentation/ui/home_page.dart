@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weather_app/features/weather_forcast/presentation/riverpod/weather_forecast_state.dart';
 import 'package:weather_app/features/weather_forcast/presentation/riverpod/weather_provider.dart';
+import 'package:weather_app/features/weather_forcast/presentation/ui/forcast_hourly.dart';
+
+import '../../domain/usecases/typed_location_forecast_usecase.dart';
+import '../widgets/forecast_card_widget.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -45,6 +49,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       body: Form(
         key: _formKey,
         child: SafeArea(
+          minimum: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
           child: Column(
             children: [
               TextFormField(
@@ -56,10 +61,25 @@ class _HomePageState extends ConsumerState<HomePage> {
                 },
                 controller: _cityController,
                 decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      final readProvider = ref.read(weatherProvifer.notifier);
+                      readProvider.getTypedLocationForecast(
+                        WeatherParams(
+                          cityName: _cityController.text,
+                        ),
+                      );
+                    },
+                  ),
+                  hintText: 'Please enter the city name',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
+              ),
+              const SizedBox(
+                height: 8,
               ),
               Expanded(
                 child: Consumer(builder: (contex, ref, widget) {
@@ -77,26 +97,21 @@ class _HomePageState extends ConsumerState<HomePage> {
                       itemBuilder: (context, index) {
                         return hourlyData.time[index]
                                 .contains('T${DateTime.now().hour}')
-                            ? Card(
-                                child: Container(
-                                  padding: const EdgeInsets.all(8),
-                                  child: Column(
-                                    children: [
-                                      Text('${hourlyData.time[index]}'),
-                                      Text(
-                                        'Temp: ${hourlyData.temperature[index]} ${units.temperature}',
+                            ? GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => ForecastHourly(
+                                        weatherState: weatherState,
+                                        time: hourlyData.time[index],
                                       ),
-                                      Text(
-                                        'Rain: ${hourlyData.rain[index]} ${units.rain}',
-                                      ),
-                                      Text(
-                                        'Precipitation: ${hourlyData.precipitation[index]} ${units.precipitation}',
-                                      ),
-                                      Text(
-                                        'Showers: ${hourlyData.showers[index]} ${units.showers}',
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  );
+                                },
+                                child: ForecastCardWidget(
+                                  hourlyData: hourlyData,
+                                  index: index,
+                                  units: units,
                                 ),
                               )
                             : const SizedBox();
@@ -109,18 +124,6 @@ class _HomePageState extends ConsumerState<HomePage> {
                   }
                 }),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  print('date is ${DateTime.now()}');
-                  // final readProvider = ref.read(weatherProvifer.notifier);
-                  // readProvider.getTypedLocationForecast(
-                  //   WeatherParams(
-                  //     cityName: _cityController.text,
-                  //   ),
-                  // );
-                },
-                child: const Text('Fetch Data'),
-              )
             ],
           ),
         ),
