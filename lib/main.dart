@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'features/weather_forcast/presentation/ui/home_page.dart';
 import 'injection_container.dart' as injection_ontainer;
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  injection_ontainer.init();
-  runApp(const MyApp());
+  await injection_ontainer.init();
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

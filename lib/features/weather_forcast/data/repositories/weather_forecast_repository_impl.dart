@@ -43,6 +43,7 @@ class WeatherForecastRepositoryImpl extends WeatherForecastRepository {
       LocationHelper locationHelper) async {
     try {
       final location = await locationHelper();
+
       if (await internetConnection.hasInternetAccess) {
         final data = await remoteDatasource.fetchForecastRemotely(location);
         return Right(data);
@@ -62,6 +63,7 @@ class WeatherForecastRepositoryImpl extends WeatherForecastRepository {
     } on CacheException {
       return Left(CacheFailure());
     } catch (err) {
+      print('the error is ${err}');
       return Left(UnknownFailure());
     }
   }

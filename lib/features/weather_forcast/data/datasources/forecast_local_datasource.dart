@@ -26,7 +26,7 @@ class ForecastLocalDatasourceImpl extends ForecastLocalDatasource {
   @override
   Future<void> setForecastDataLocally(WeatherForecastModel forecastData) async {
     await sharedPreferences.setString(
-        Constants.weatherForecastKey, jsonEncode(forecastData));
+        Constants.weatherForecastKey, jsonEncode(forecastData.toJson()));
   }
 
   @override
@@ -49,24 +49,27 @@ class ForecastLocalDatasourceImpl extends ForecastLocalDatasource {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        throw PermissionBlockedException();
+        print('Permission denied 1');
+        // throw PermissionBlockedException();
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
       await Geolocator.requestPermission();
-      throw PermissionBlockedForeverException();
+      print('Permission denied 2');
+      // throw PermissionBlockedForeverException();
     }
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      throw const LocationServiceDisabledException();
+      print('Permission denied 3');
+      // throw const LocationServiceDisabledException();
     }
 
     final locationData = await Geolocator.getCurrentPosition();
     return LocationDataModel(
-      latitude: '${locationData.latitude}',
-      longitude: '${locationData.longitude}',
+      latitude: locationData.latitude,
+      longitude: locationData.longitude,
     );
   }
 }

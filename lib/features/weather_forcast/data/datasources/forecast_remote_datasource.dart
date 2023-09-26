@@ -38,16 +38,18 @@ class ForecastRemoteDatasourceImpl extends ForecastRemoteDatasource {
           '${Constants.weatherApiUrl}&longitude=${params.longitude}&latitude=${params.latitude}'),
     );
 
-    print('current location data ${response.body}');
+    print('remote forecast data 1${response.statusCode} ${response.body}');
 
     if (response.statusCode == 200) {
-      final weatherForecastModel = WeatherForecastModel.fromJson(
-        jsonDecode(response.body),
-      );
+      final json = await jsonDecode(response.body);
+      print('remote forecast data 2  $json');
+      final weatherForecastModel = WeatherForecastModel.fromJson(json);
+      print('remote forecast data 3 $json');
 
       await localDatasource.setForecastDataLocally(weatherForecastModel);
       return weatherForecastModel;
     } else {
+      print('Error occured in forecast');
       throw ServerException();
     }
   }
@@ -55,13 +57,18 @@ class ForecastRemoteDatasourceImpl extends ForecastRemoteDatasource {
   @override
   Future<LocationDataModel> fetchTypedLocationData(WeatherParams params) async {
     final response = await httpClient.get(
-      Uri.parse('${Constants.locationApiUrl}?city=${params.cityName}'),
-    );
+        Uri.parse(
+          '${Constants.locationApiUrl}?city=${params.cityName}',
+        ),
+        headers: {
+          'X-Api-Key': '5n9LBzHmNfwRNfmpfgSW6w==H5NlQZWILQYP3fQH',
+        });
+
     print('typed location data ${response.body}');
+
     if (response.statusCode == 200) {
-      final locationDataModel = LocationDataModel.fromJson(
-        jsonDecode(response.body),
-      );
+      final json = await jsonDecode(response.body);
+      final locationDataModel = LocationDataModel.fromJson(json[0]);
 
       return locationDataModel;
     } else {

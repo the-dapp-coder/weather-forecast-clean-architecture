@@ -2,8 +2,8 @@ import 'package:equatable/equatable.dart';
 
 class LocationDataModel extends Equatable {
   final String? city;
-  final String longitude;
-  final String latitude;
+  final double longitude;
+  final double latitude;
   final String? country;
   const LocationDataModel({
     required this.latitude,
@@ -22,5 +22,10 @@ class LocationDataModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [
+        city,
+        longitude,
+        latitude,
+        country,
+      ];
 }

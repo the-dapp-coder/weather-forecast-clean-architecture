@@ -28,6 +28,21 @@ class WeatherForecastModel extends WeatherForecastEntity {
       hourlyData: HourlyForcastDataModel.fromJson(json['hourly']),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'longitude': longitude,
+      'latitude': latitude,
+      'generationtime_ms': generatedTimeMs,
+      'utc_offset_seconds': utcOffsetSeconds,
+      'timezone': timeZone,
+      'timezone_abbreviation': timeZoneAbr,
+      'elevation': elevation,
+      'current_weather': (currentWeather as CurrentWeatherModel).toJson(),
+      'hourly_units': (weatherParamUnits as WeatherParamUnitsModel).toJson(),
+      'hourly': (hourlyData as HourlyForcastDataModel).toJson(),
+    };
+  }
 }
 
 class HourlyForcastDataModel extends HourlyForcastData {
@@ -41,11 +56,22 @@ class HourlyForcastDataModel extends HourlyForcastData {
 
   factory HourlyForcastDataModel.fromJson(Map<String, dynamic> json) {
     return HourlyForcastDataModel(
-        time: json['time'],
-        temperature: json['temperature_2m'],
-        precipitation: json['precipitation'],
-        rain: json['rain'],
-        showers: json['showers']);
+      time: json['time'],
+      temperature: json['temperature_2m'],
+      precipitation: json['precipitation'],
+      rain: json['rain'],
+      showers: json['showers'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'time': time,
+      'temperature_2m': temperature,
+      'precipitation': precipitation,
+      'rain': rain,
+      'showers': showers,
+    };
   }
 }
 
@@ -64,6 +90,14 @@ class WeatherParamUnitsModel extends WeatherParamUnits {
       rain: json['rain'],
       showers: json['showers'],
     );
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      'temperature_2m': temperature,
+      'precipitation': precipitation,
+      'rain': rain,
+      'showers': showers,
+    };
   }
 }
 
@@ -85,5 +119,15 @@ class CurrentWeatherModel extends CurrentWeather {
       isDay: json['is_day'],
       time: json['time'],
     );
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      'temperature': temperature,
+      'windspeed': windspeed,
+      'winddirection': windDirection,
+      'weathercode': weatherCode,
+      'is_day': isDay,
+      'time': time,
+    };
   }
 }

@@ -13,7 +13,7 @@ import 'features/weather_forcast/data/repositories/weather_forecast_repository_i
 
 final getIt = GetIt.instance;
 
-void init() async {
+Future<void> init() async {
   getIt.registerFactory<WeatherProvider>(
     () => WeatherProvider(
       currentLocationForecastUsecase: getIt(),

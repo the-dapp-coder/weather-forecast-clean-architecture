@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 class WeatherForecastEntity extends Equatable {
   final double longitude;
   final double latitude;
-  final DateTime generatedTimeMs;
+  final double generatedTimeMs;
   final int utcOffsetSeconds;
   final String timeZone;
   final String timeZoneAbr;
@@ -41,11 +41,11 @@ class WeatherForecastEntity extends Equatable {
 }
 
 class HourlyForcastData extends Equatable {
-  final List<DateTime> time;
-  final List<double> temperature;
-  final List<double> precipitation;
-  final List<double> rain;
-  final List<double> showers;
+  final List<dynamic> time;
+  final List<dynamic> temperature;
+  final List<dynamic> precipitation;
+  final List<dynamic> rain;
+  final List<dynamic> showers;
   const HourlyForcastData({
     required this.time,
     required this.temperature,
@@ -89,10 +89,10 @@ class WeatherParamUnits extends Equatable {
 class CurrentWeather extends Equatable {
   final double temperature;
   final double windspeed;
-  final double windDirection;
-  final double weatherCode;
+  final int windDirection;
+  final int weatherCode;
   final int isDay;
-  final DateTime time;
+  final String time;
   const CurrentWeather({
     required this.temperature,
     required this.windspeed,
