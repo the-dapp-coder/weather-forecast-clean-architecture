@@ -15,11 +15,14 @@ class ForecastHourly extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hourlyData = weatherState.state.hourlyData;
-    final units = weatherState.state.weatherParamUnits;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Hourly Forecast'),
+        title: const Text(
+          'Hourly Forecast',
+          style: TextStyle(
+              color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),
+        ),
       ),
       body: SafeArea(
         child: ListView.builder(
@@ -27,9 +30,8 @@ class ForecastHourly extends StatelessWidget {
           itemBuilder: (context, index) {
             return hourlyData.time[index].contains(time.split('T')[0])
                 ? ForecastCardWidget(
-                    hourlyData: hourlyData,
+                    forecastEntity: weatherState.state,
                     index: index,
-                    units: units,
                   )
                 : const SizedBox();
           },

@@ -44,7 +44,11 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Weather Forecast'),
+        title: const Text(
+          'Weather Forecast',
+          style: TextStyle(
+              color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),
+        ),
       ),
       body: Form(
         key: _formKey,
@@ -89,29 +93,26 @@ class _HomePageState extends ConsumerState<HomePage> {
                       child: CircularProgressIndicator(),
                     );
                   } else if (weatherState is ForecastLoadedState) {
-                    final hourlyData = weatherState.state.hourlyData;
-                    final units = weatherState.state.weatherParamUnits;
+                    final time = weatherState.state.hourlyData.time;
 
                     return ListView.builder(
-                      itemCount: hourlyData.time.length,
+                      itemCount: time.length,
                       itemBuilder: (context, index) {
-                        return hourlyData.time[index]
-                                .contains('T${DateTime.now().hour}')
+                        return time[index].contains('T${DateTime.now().hour}')
                             ? GestureDetector(
                                 onTap: () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) => ForecastHourly(
                                         weatherState: weatherState,
-                                        time: hourlyData.time[index],
+                                        time: time[index],
                                       ),
                                     ),
                                   );
                                 },
                                 child: ForecastCardWidget(
-                                  hourlyData: hourlyData,
+                                  forecastEntity: weatherState.state,
                                   index: index,
-                                  units: units,
                                 ),
                               )
                             : const SizedBox();
