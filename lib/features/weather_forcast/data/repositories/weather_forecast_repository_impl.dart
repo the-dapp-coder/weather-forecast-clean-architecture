@@ -16,11 +16,11 @@ import '../models/location_data_model.dart';
 
 typedef LocationHelper = Future<LocationDataModel> Function();
 
-class WetherForecastRepositoryImpl extends WeatherForecastRepository {
+class WeatherForecastRepositoryImpl extends WeatherForecastRepository {
   final InternetConnection internetConnection;
   final ForecastRemoteDatasource remoteDatasource;
   final ForecastLocalDatasource localDatasource;
-  WetherForecastRepositoryImpl({
+  WeatherForecastRepositoryImpl({
     required this.internetConnection,
     required this.remoteDatasource,
     required this.localDatasource,

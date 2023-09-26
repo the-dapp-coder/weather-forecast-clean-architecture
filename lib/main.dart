@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'home_page.dart';
+import 'features/weather_forcast/presentation/ui/home_page.dart';
+import 'injection_container.dart' as injection_ontainer;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  injection_ontainer.init();
   runApp(const MyApp());
 }
 
