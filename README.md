@@ -1,16 +1,22 @@
 # weather_app
 
-A weather forcasting project
+A weather forecasting project: contains a forecast of the current location as well as the desired location with hourly and daily iterations.
 
-## Getting Started
+App Screenshots:
 
-This project is a starting point for a Flutter application.
+<div style="display: flex; flex-direction: row;">>
+    <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/51785772/270899544-b0d7b030-53a7-4c29-a93c-72d725c508a1.jpeg" width="180" />
+    <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/51785772/270899645-576928de-3997-4a5d-8bca-74bb442b52a1.jpeg" width="180" />
+    <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/51785772/270899735-de1e8fe3-ad8f-4418-83a6-f05ebd0e1879.jpeg" width="180" />
+  <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/51785772/270899788-c0bc30f4-a429-4c2b-956a-a44995f141e4.jpeg" width="180" />
+  <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/51785772/270899846-ae57fc18-dc42-446f-9eeb-ba75c5bda359.jpeg" width="180" />
+</div>
 
-A few resources to get you started if this is your first Flutter project:
+A new flutter project exploring the test driven clean architecture to create a maintainable highly preformant application. 
+Reference - Rezo-Coders
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Clean Architecture Overview Diagram:
+![architecture of TTD clean architecture](https://user-images.githubusercontent.com/51785772/223683066-d5f3b170-9d53-43f2-a23d-0db4a9c5912c.PNG)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Short & concise notes of the architecture:
+https://docs.google.com/document/d/1xXQKMG-5tb780LSi1szdI3j9WIEFlZMPVsK4ITdz-9o/edit?usp=sharing
