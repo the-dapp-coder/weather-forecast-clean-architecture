@@ -122,8 +122,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                       },
                     );
                   } else {
-                    return const Center(
-                      child: Text('Something went worng!'),
+                    return Center(
+                      child: Text('$weatherState: Something went worng!'),
                     );
                   }
                 }),

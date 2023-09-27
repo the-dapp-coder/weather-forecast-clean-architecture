@@ -50,26 +50,28 @@ class ForecastLocalDatasourceImpl extends ForecastLocalDatasource {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         print('Permission denied 1');
-        throw PermissionBlockedException();
+        // throw PermissionBlockedException();
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
       await Geolocator.requestPermission();
       print('Permission denied 2');
-      throw PermissionBlockedForeverException();
+      // throw PermissionBlockedForeverException();
     }
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       print('Permission denied 3');
-      throw const LocationServiceDisabledException();
+      // throw const LocationServiceDisabledException();
     }
 
     final locationData = await Geolocator.getCurrentPosition();
-    return LocationDataModel(
+    final locationModel = LocationDataModel(
       latitude: locationData.latitude,
       longitude: locationData.longitude,
     );
+    print('Current Location ${locationModel}');
+    return locationModel;
   }
 }
